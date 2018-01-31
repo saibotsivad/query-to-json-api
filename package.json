@@ -1,0 +1,37 @@
+{
+  "name": "query-to-json-api",
+  "version": "1.0.0",
+  "description": "This module takes a query string and parses it, following the JSON-API specs.",
+  "main": "index.js",
+  "devDependencies": {
+    "commitizen": "^2.9.6",
+    "cz-conventional-changelog": "^2.1.0",
+    "tape": "^4.6.3"
+  },
+  "scripts": {
+    "commit": "git-cz",
+    "test": "tape test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/saibotsivad/query-to-json-api.git"
+  },
+  "keywords": [
+    "json-api",
+    "query"
+  ],
+  "author": "saibotsivad",
+  "license": "VOL",
+  "bugs": {
+    "url": "https://github.com/saibotsivad/query-to-json-api/issues"
+  },
+  "homepage": "https://github.com/saibotsivad/query-to-json-api#readme",
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  },
+  "dependencies": {
+    "query-string": "^5.0.1"
+  }
+}
