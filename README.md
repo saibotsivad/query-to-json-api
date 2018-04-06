@@ -1,14 +1,26 @@
 # query-to-json-api
 
-This module takes a query string and parses it, following the
+This module takes a query *object* and creates a copy that follows the
 [JSON-API](http://jsonapi.org/) specs.
+
+If you're turning a _string_ into a query object, I recommend
+using the [query-string](https://github.com/sindresorhus/query-string)
+module, which is fast and lightweight.
 
 ## general use
 
 ```js
-const parse = require('query-to-json-api')
+const queryToJsonApi = require('query-to-json-api')
+const parseQueryString = require('query-string')
 
-const query = parse('fields[articles]=title,body')
+// normal query parsing
+const dirtyQuery = parseQueryString('fields[articles]=title,body')
+// {
+//     'fields[articles]': 'title,body'
+// }
+
+// query for JSON-API
+const cleanQuery = queryToJsonApi(dirtyQuery)
 // {
 //     fields: {
 //         articles: [
@@ -18,14 +30,6 @@ const query = parse('fields[articles]=title,body')
 //     }
 // }
 ```
-
-A preceding `?` character is fine, it'll get parsed correctly.
-
-## credit
-
-The bulk of the parsing work is done with the
-[query-string](https://github.com/sindresorhus/query-string)
-module, this just does the bit that's JSON-API specific.
 
 ## license
 

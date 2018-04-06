@@ -1,5 +1,3 @@
-const { parse } = require('query-string')
-
 const someSortOfSquareBraces = /^(\w+)\[(.+)\]$/
 
 const parseKeys = partial => {
@@ -17,9 +15,7 @@ const parametersThatCanBeCommaDelimited = [
 	'sort'
 ]
 
-module.exports = string => {
-	const dirtyQuery = parse(string)
-
+module.exports = dirtyQuery => {
 	const keys = Object.keys(dirtyQuery).map(parseKeys)
 
 	const query = keys.reduce((map, { parameter, type, key }) => {

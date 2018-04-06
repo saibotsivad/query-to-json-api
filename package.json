@@ -1,7 +1,7 @@
 {
   "name": "query-to-json-api",
   "version": "1.0.0",
-  "description": "This module takes a query string and parses it, following the JSON-API specs.",
+  "description": "This module takes a parsed query object and creates a copy following the JSON-API specs.",
   "main": "index.js",
   "devDependencies": {
     "commitizen": "^2.9.6",
@@ -30,8 +30,5 @@
     "commitizen": {
       "path": "./node_modules/cz-conventional-changelog"
     }
-  },
-  "dependencies": {
-    "query-string": "^5.0.1"
   }
 }
