@@ -1,4 +1,5 @@
 const test = require('tape')
+const { parse: queryify } = require('query-string')
 const parse = require('./index.js')
 
 const scenarios = [{
@@ -29,6 +30,6 @@ const scenarios = [{
 }]
 
 test('all scenarios', t => {
-	scenarios.forEach(({ query, expected }) => t.deepEqual(parse(query), expected))
+	scenarios.forEach(({ query, expected }) => t.deepEqual(parse(queryify(query)), expected))
 	t.end()
 })
