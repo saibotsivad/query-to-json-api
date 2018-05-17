@@ -1,37 +1,39 @@
-const someSortOfSquareBraces = /^(\w+)\[(.+)\]$/
+const singleDepthSquareBraces = /^(\w+)\[(.+)\]$/
 
-const parseKeys = partial => {
-	const match = someSortOfSquareBraces.exec(partial) || []
-	return {
-		parameter: match[1] || partial,
-		type: match[2],
-		key: partial
-	}
+const parametersThatCanBeCommaDelimited = {
+    fields: true,
+    include: true,
+    sort: true
 }
 
-const parametersThatCanBeCommaDelimited = [
-	'fields',
-	'include',
-	'sort'
-]
-
-module.exports = dirtyQuery => {
-	const keys = Object.keys(dirtyQuery).map(parseKeys)
-
-	const query = keys.reduce((map, { parameter, type, key }) => {
-		const splittable = parametersThatCanBeCommaDelimited.includes(parameter)
-		if (!type) {
-			map[parameter] = splittable
-				? (dirtyQuery[parameter] || '').split(',')
-				: dirtyQuery[parameter]
-		} else {
-			map[parameter] = map[parameter] || {}
-			map[parameter][type] = splittable
-				? (dirtyQuery[key] || '').split(',')
-				: dirtyQuery[key]
-		}
-		return map
-	}, {})
-
-	return query
+const parametersThatCanUseSingleDepthSquareBrackets = {
+    fields: true
 }
+
+module.exports = dirtyQuery => Object
+    .keys(dirtyQuery)
+    .map(original => {
+        const match = singleDepthSquareBraces.exec(original) || []
+        return {
+            original,
+            parameterName: match[1],
+            parameterMapKey: match[2]
+        }
+    })
+    .map(({ original, parameterName, parameterMapKey }) => {
+        const splittable = parametersThatCanBeCommaDelimited[parameterName || original]
+        const value = splittable
+            ? dirtyQuery[original].split(',')
+            : dirtyQuery[original]
+        return { parameterName, parameterMapKey, original, value }
+    })
+    .reduce((query, { parameterName, parameterMapKey, original, value }) => {
+        const canHaveSquares = parametersThatCanUseSingleDepthSquareBrackets[parameterName]
+        if (canHaveSquares) {
+            query[parameterName] = query[parameterName] || {}
+            query[parameterName][parameterMapKey] = value
+        } else {
+            query[original] = value
+        }
+        return query
+    }, [])
