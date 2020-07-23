@@ -36,4 +36,4 @@ module.exports = dirtyQuery => Object
             query[original] = value
         }
         return query
-    }, [])
+    }, {})
