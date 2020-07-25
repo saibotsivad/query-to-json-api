@@ -1,6 +1,6 @@
-const test = require('tape')
-const { parse: queryify } = require('query-string')
-const parse = require('./index.js')
+import { test } from 'zora'
+import { parse } from 'query-string'
+import queryToJsonApi from './src/index.js'
 
 const scenarios = [
     {
@@ -53,6 +53,5 @@ const scenarios = [
 ]
 
 test('all scenarios', t => {
-	scenarios.forEach(({ description, query, expected }) => t.deepEqual(parse(queryify(query)), expected, description))
-	t.end()
+	scenarios.forEach(({ description, query, expected }) => t.deepEqual(queryToJsonApi(parse(query)), expected, description))
 })

@@ -10,7 +10,7 @@ const parametersThatCanUseSingleDepthSquareBrackets = {
     fields: true
 }
 
-module.exports = dirtyQuery => Object
+export default dirtyQuery => Object
     .keys(dirtyQuery)
     .map(original => {
         const match = singleDepthSquareBraces.exec(original) || []
@@ -36,4 +36,4 @@ module.exports = dirtyQuery => Object
             query[original] = value
         }
         return query
-    }, [])
+    }, {})

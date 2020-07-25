@@ -17,6 +17,17 @@ Change categories are:
 ## [Unreleased]
 * Nothing documented.
 
+## [Unreleased]
+### Changed
+* **Breaking:** Dropped support for NodeJS 6 and 8, now officially
+	supporting only LTS versions, which are 10 and 12.
+* **Breaking:** Moved location of `/index.js` to `/src/index.js` which
+	you shouldn't use. Instead, if you can't import/require `'query-to-json-api'`
+	directly, use one of the files in `/dist` which are CommonJS, ES exports,
+	and a minimized version for the browser. See comments and changes in
+	[this pull request](https://github.com/saibotsivad/query-to-json-api/pull/2)
+	for more details.
+
 ## [3.0.0] - 2018-05-17
 ### Changed
 * **Breaking:** In an attempt to stick with the JSON-API specs more
