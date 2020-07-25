@@ -1,6 +1,6 @@
 {
   "name": "query-to-json-api",
-  "version": "3.0.0",
+  "version": "4.0.0",
   "description": "This module takes a parsed query object and creates a copy following the JSON-API specs.",
   "unpkg": "dist/index.min.js",
   "module": "dist/index.mjs",
