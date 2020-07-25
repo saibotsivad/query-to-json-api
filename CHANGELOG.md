@@ -17,6 +17,11 @@ Change categories are:
 ## [Unreleased]
 * Nothing documented.
 
+## [Unreleased]
+### Changed
+* **Breaking:** Dropped support for NodeJS 6 and 8, now officially
+	supporting only LTS versions, which are 10 and 12.
+
 ## [3.0.0] - 2018-05-17
 ### Changed
 * **Breaking:** In an attempt to stick with the JSON-API specs more
