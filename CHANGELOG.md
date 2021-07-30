@@ -17,14 +17,16 @@ Change categories are:
 ## [Unreleased]
 * Nothing documented.
 
-## [4.1.0] - 2021-07-30
+## [5.0.0] - 2021-07-30
 ### Added
 * Support for using [URLSearchParams](https://developer.mozilla.org/en-US/docs/Web/API/URLSearchParams)
 	instead of some external lib.
-* Testing in NodeJS 16.
+* Added support for NodeJS 16.
 ### Changed
 * Optimized to run through query parameter set only once, instead of 3 times.
 * Standardized code styles with ESLint and editorconfig.
+* **Breaking:** Dropped support for NodeJS 10, now officially
+	supporting only LTS versions, which are 12 and 14.
 
 ## [4.0.0] - 2020-07-24
 ### Changed
