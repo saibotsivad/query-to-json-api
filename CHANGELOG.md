@@ -17,6 +17,10 @@ Change categories are:
 ## [Unreleased]
 * Nothing documented.
 
+## [5.0.1] - 2021-07-30
+### Fixed
+* Build before publishing. 🤦‍♂️
+
 ## [5.0.0] - 2021-07-30
 ### Added
 * Support for using [URLSearchParams](https://developer.mozilla.org/en-US/docs/Web/API/URLSearchParams)
