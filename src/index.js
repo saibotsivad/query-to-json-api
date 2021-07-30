@@ -1,39 +1,38 @@
-const singleDepthSquareBraces = /^(\w+)\[(.+)\]$/
+const singleDepthSquareBraces = /^(\w+)\[(.+)]$/
 
 const parametersThatCanBeCommaDelimited = {
-    fields: true,
-    include: true,
-    sort: true
+	fields: true,
+	include: true,
+	sort: true,
 }
 
 const parametersThatCanUseSingleDepthSquareBrackets = {
-    fields: true
+	fields: true,
 }
 
-export default dirtyQuery => Object
-    .keys(dirtyQuery)
-    .map(original => {
-        const match = singleDepthSquareBraces.exec(original) || []
-        return {
-            original,
-            parameterName: match[1],
-            parameterMapKey: match[2]
-        }
-    })
-    .map(({ original, parameterName, parameterMapKey }) => {
-        const splittable = parametersThatCanBeCommaDelimited[parameterName || original]
-        const value = splittable
-            ? dirtyQuery[original].split(',')
-            : dirtyQuery[original]
-        return { parameterName, parameterMapKey, original, value }
-    })
-    .reduce((query, { parameterName, parameterMapKey, original, value }) => {
-        const canHaveSquares = parametersThatCanUseSingleDepthSquareBrackets[parameterName]
-        if (canHaveSquares) {
-            query[parameterName] = query[parameterName] || {}
-            query[parameterName][parameterMapKey] = value
-        } else {
-            query[original] = value
-        }
-        return query
-    }, {})
+const getKeys = query => typeof query.keys === 'function' // to support URLSearchParams
+	? Array.from(query.keys())
+	: Object.keys(query)
+
+export default dirtyQuery => getKeys(dirtyQuery)
+	.reduce((query, key) => {
+		const [ , parameterName, parameterMapKey ] = singleDepthSquareBraces.exec(key) || []
+		const splittable = parametersThatCanBeCommaDelimited[parameterName || key]
+		const canHaveSquares = parametersThatCanUseSingleDepthSquareBrackets[parameterName]
+
+		const dirtyValue = dirtyQuery.getAll ? dirtyQuery.getAll(key) : dirtyQuery[key]
+		const cleanValue = splittable
+			? (Array.isArray(dirtyValue) ? dirtyValue : [ dirtyValue ]).map(string => string.split(',')).flat()
+			: dirtyValue
+		const value = splittable
+			? cleanValue
+			: cleanValue.length === 1 ? cleanValue[0] : cleanValue
+
+		if (canHaveSquares) {
+			query[parameterName] = query[parameterName] || {}
+			query[parameterName][parameterMapKey] = value
+		} else {
+			query[key] = value
+		}
+		return query
+	}, {})
