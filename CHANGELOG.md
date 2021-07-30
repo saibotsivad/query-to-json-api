@@ -19,6 +19,7 @@ Change categories are:
 
 ## [Unreleased]
 ### Changed
+* Optimized to run through query parameter set only once, instead of 3 times.
 * Standardized code styles with ESLint and editorconfig.
 * **Breaking:** Dropped support for NodeJS 6 and 8, now officially
 	supporting only LTS versions, which are 10 and 12.
