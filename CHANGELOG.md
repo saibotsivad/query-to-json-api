@@ -19,6 +19,7 @@ Change categories are:
 
 ## [Unreleased]
 ### Changed
+* Standardized code styles with ESLint and editorconfig.
 * **Breaking:** Dropped support for NodeJS 6 and 8, now officially
 	supporting only LTS versions, which are 10 and 12.
 * **Breaking:** Moved location of `/index.js` to `/src/index.js` which

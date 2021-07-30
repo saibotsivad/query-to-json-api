@@ -11,6 +11,7 @@
   },
   "devDependencies": {
     "bundt": "^1.0.2",
+    "eslint": "^7.31.0",
     "esm": "^3.2.25",
     "query-string": "^6.0.0",
     "tap-exit-code": "^2.0.0",
