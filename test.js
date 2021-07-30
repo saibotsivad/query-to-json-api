@@ -11,6 +11,13 @@ const scenarios = [
 		},
 	},
 	{
+		description: 'a simple comma list',
+		query: 'include=a.b,c.d',
+		expected: {
+			include: [ 'a.b', 'c.d' ],
+		},
+	},
+	{
 		description: 'parsing many keys into arrays',
 		query: 'include=author&fields[articles]=title,body&fields[people]=name&sort=-created,title',
 		expected: {
@@ -58,4 +65,12 @@ test('all scenarios', t => {
 		query,
 		expected,
 	}) => t.deepEqual(queryToJsonApi(parse(query)), expected, description))
+})
+
+test('all scenarios using new URL().searchParams', t => {
+	scenarios.forEach(({
+		description,
+		query,
+		expected,
+	}) => t.deepEqual(queryToJsonApi(new URL(`https://site.com/?${query}`).searchParams), expected, description))
 })

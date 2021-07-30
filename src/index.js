@@ -10,21 +10,24 @@ const parametersThatCanUseSingleDepthSquareBrackets = {
 	fields: true,
 }
 
-export default dirtyQuery => Object
-	.keys(dirtyQuery)
+const getKeys = query => typeof query.keys === 'function' // to support URLSearchParams
+	? Array.from(query.keys())
+	: Object.keys(query)
+
+export default dirtyQuery => getKeys(dirtyQuery)
 	.reduce((query, key) => {
-		const match = singleDepthSquareBraces.exec(key) || []
-		const parameterName = match[1]
-		const parameterMapKey = match[2]
+		const [ , parameterName, parameterMapKey ] = singleDepthSquareBraces.exec(key) || []
 		const splittable = parametersThatCanBeCommaDelimited[parameterName || key]
-		const value = splittable
-			? (
-				Array.isArray(dirtyQuery[key])
-					? dirtyQuery[key].map(string => string.split(',')).flat()
-					: dirtyQuery[key].split(',')
-			)
-			: dirtyQuery[key]
 		const canHaveSquares = parametersThatCanUseSingleDepthSquareBrackets[parameterName]
+
+		const dirtyValue = dirtyQuery.getAll ? dirtyQuery.getAll(key) : dirtyQuery[key]
+		const cleanValue = splittable
+			? (Array.isArray(dirtyValue) ? dirtyValue : [ dirtyValue ]).map(string => string.split(',')).flat()
+			: dirtyValue
+		const value = splittable
+			? cleanValue
+			: cleanValue.length === 1 ? cleanValue[0] : cleanValue
+
 		if (canHaveSquares) {
 			query[parameterName] = query[parameterName] || {}
 			query[parameterName][parameterMapKey] = value
